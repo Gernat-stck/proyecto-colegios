@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* src/styles/global.css */
+@font-face {
+  font-family: "AppleGaramond";
+  src: url("/src/style/Fonts/AppleGaramond-Light.ttf") format("truetype");
+}
+body {
+  background-color: rgb(243 244 246 / 1);
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1));
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}
+
+.custom-h-index-side {
+  height: calc(100dvh - 58px);
+}
+.custom-h-index-side {
+  height: calc(100dvh - 58px);
+}
+.custom-h-inner-side {
+  height: calc(50% - 16px);
+}
+.custom-calendar {
+  height: calc(100% - 48px);
+}
+.card-content {
+  overflow: hidden; /* Evita el desbordamiento */
+  max-height: 100vh; /* Asegura que no exceda la altura de la ventana */
+}
