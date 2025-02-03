@@ -2,7 +2,7 @@ import { MousePointerClick } from "lucide-react";
 
 export default function Home() {
   return (
-    <section className="flex flex-wrap lg:flex-nowrap relative h-fit-content lg:h-custom-lg-vh bg-transparent pt-8">
+    <section className="flex flex-wrap lg:flex-nowrap relative h-fit-content lg:h-custom-lg-vh bg-transparent pt-8 overflow-hidden">
       <div className="block lg:hidden relative w-full h-32">
         <div className="-z-10 absolute top-0 h-full aspect-square rounded-full bg-transparent custom-bubble-shadow-mobile"></div>
       </div>
