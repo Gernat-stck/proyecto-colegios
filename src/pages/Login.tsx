@@ -167,16 +167,12 @@ export default function Login() {
                   required
                 />
                 <Button
-                  className="w-full px-6 py-5 mb-5 text-sm font-bold leading-none text-white transition duration-300 md:w-96 rounded-2xl hover:bg-purple-blue-600 focus:ring-4 focus:ring-purple-blue-100 bg-purple-blue-500"
+                  className="w-full px-6 py-5 mb-5 text-sm font-bold leading-none text-white transition duration-300 rounded-2xl hover:bg-purple-blue-600 focus:ring-4 focus:ring-purple-blue-100 bg-purple-blue-500"
                   type="submit"
                   disabled={loading}
                 >
                   {loading ? "Cargando..." : "Inciar Sesion"}
                 </Button>
-                {loading && <div className="spinner">Cargando...</div>}
-                {/* <Link to="/register" className="underline text-purple-blue-500">
-                  No estas registrado aun? Registrate.
-                </Link> */}
               </form>
             </div>
           </div>
