@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, UserCircle } from "lucide-react";
 import { makeRequest } from "@/hooks/api";
+import SplitText from "@/components/ui/SplitText";
 //TODO: CREAR COMPONENTE REGISTRO
-const handleGoogleLogin = async (
+/*const handleGoogleLogin = async (
   e: React.MouseEvent<HTMLButtonElement>,
   setLoading: (loading: boolean) => void
 ) => {
@@ -24,7 +25,7 @@ const handleGoogleLogin = async (
     toast.error("Error en la redirección");
   }
 };
-
+*/
 const handleLoginWithoutGoogle = async (
   e: React.FormEvent<HTMLFormElement>,
   email: string,
@@ -40,13 +41,19 @@ const handleLoginWithoutGoogle = async (
       method: "POST",
       data: { email, password },
     });
-    localStorage.setItem("authToken", data.token || "");
+    localStorage.setItem("tokenSanctum", data.authToken || "");
     localStorage.setItem("role", data.role || "Courses");
+    localStorage.setItem("userId", data.userId || "");
     toast.success("Inicio de sesión exitoso");
     navigate(`/dashboard/${data.role}/Home`);
   } catch (error) {
     console.error("Error during login:", error);
-    toast.error("Error en el inicio de sesión");
+    let errorMessage = "Error en el inicio de sesión";
+    if (error instanceof Error) {
+      const responseError = (error as any).response?.data?.error;
+      errorMessage = responseError || errorMessage;
+    }
+    toast.error(errorMessage);
   } finally {
     setLoading(false);
   }
@@ -85,11 +92,34 @@ export default function Login() {
                   )
                 }
               >
-                <h3 className="mb-3 text-4xl font-extrabold text-dark-grey-900">
-                  Iniciar Sesión
-                </h3>
+                <SplitText
+                  text={`Bienvenido`}
+                  className="text-4xl font-semibold text-center"
+                  delay={150}
+                  animationFrom={{
+                    opacity: 0,
+                    transform: "translate3d(0,50px,0)",
+                  }}
+                  animationTo={{ opacity: 1, transform: "translate3d(0,0,0)" }}
+                  threshold={0.2}
+                  rootMargin="-50px"
+                />
+                <SplitText
+                  text={`a una nueva forma de aprender.`}
+                  className="text-3xl font-semibold text-center"
+                  delay={150}
+                  animationFrom={{
+                    opacity: 0,
+                    transform: "translate3d(0,50px,0)",
+                  }}
+                  animationTo={{ opacity: 1, transform: "translate3d(0,0,0)" }}
+                  threshold={0.2}
+                  rootMargin="-50px"
+                />
+
+                <UserCircle className=" h-16 w-full text-dark-grey-900 flex items-center my-10" />
                 <p className="mb-4 text-grey-700">Ingresa tus credenciales</p>
-                <Button
+                {/*<Button
                   className="flex items-center justify-center w-full py-4 mb-6 text-sm font-medium transition duration-300 rounded-2xl text-grey-900 bg-grey-300 hover:bg-grey-400 focus:ring-4 focus:ring-grey-300"
                   onClick={(e) => handleGoogleLogin(e, setLoading)}
                 >
@@ -105,7 +135,7 @@ export default function Login() {
                   <hr className="h-0 border-b border-solid border-grey-500 grow" />
                   <p className="mx-4 text-grey-600">or</p>
                   <hr className="h-0 border-b border-solid border-grey-500 grow" />
-                </div>
+                </div> */}
                 <label
                   htmlFor="email"
                   className="mb-2 text-sm text-start text-grey-900"
@@ -144,9 +174,9 @@ export default function Login() {
                   {loading ? "Cargando..." : "Inciar Sesion"}
                 </Button>
                 {loading && <div className="spinner">Cargando...</div>}
-                <Link to="/register" className="underline text-purple-blue-500">
+                {/* <Link to="/register" className="underline text-purple-blue-500">
                   No estas registrado aun? Registrate.
-                </Link>
+                </Link> */}
               </form>
             </div>
           </div>

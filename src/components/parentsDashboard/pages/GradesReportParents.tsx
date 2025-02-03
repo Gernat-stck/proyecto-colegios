@@ -7,7 +7,7 @@ import { makeRequest } from "@/hooks/api";
 import { toast } from "sonner";
 import PacmanLoader from "react-spinners/PacmanLoader";
 
-export default function GradesReportCourses() {
+export default function GradesReportParents() {
   const [coursesGrades, setCoursesGrades] = useState<{
     [courseId: string]: CourseData;
   }>({});
@@ -72,4 +72,3 @@ export default function GradesReportCourses() {
     </div>
   );
 }
- 

@@ -15,7 +15,7 @@ import { makeRequest } from "@/hooks/api";
 import { Task, TaskResponse } from "@/types/TaskType.d";
 import PacmanLoader from "react-spinners/PacmanLoader";
 
-export default function TasksCourses() {
+export default function TasksStudents() {
   const [subjects, setSubjects] = useState<string[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [filter, setFilter] = useState("Todas");
@@ -36,7 +36,7 @@ export default function TasksCourses() {
       for (const courseId in data) {
         const courseData = data[courseId];
         if (courseData && courseData.tasks) {
-            categories.push(courseData.category);
+          categories.push(courseData.category);
           courseData.tasks.forEach((taskData) => {
             const taskWithCategoryAndUserTask = {
               ...taskData.task,

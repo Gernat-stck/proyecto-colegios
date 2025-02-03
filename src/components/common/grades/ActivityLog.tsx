@@ -18,7 +18,7 @@ export function ActivityLog({ coursesGrades }: ActivityLogProps) {
       <h2 className="text-2xl font-bold">Registro de Notas</h2>
       <div className="space-y-4">
         <Select onValueChange={setSelectedCourse} defaultValue={selectedCourse}>
-          <SelectTrigger className="w-full bg-violet-600 text-white text-md font-semibold rounded-lg p-2">
+          <SelectTrigger className="w-60 bg-violet-600 text-white text-md font-semibold rounded-lg p-5">
             <SelectValue placeholder="Selecciona una materia" />
           </SelectTrigger>
           <SelectContent>

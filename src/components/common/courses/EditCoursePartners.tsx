@@ -173,7 +173,6 @@ const EditCoursePartners = ({
         method: "POST",
         data: { units: editedUnits },
       });
-      console.log("Datos enviados", editedUnits);
       toast.success("Curso actualizado correctamente");
     } catch (error) {
       toast.error("Error al actualizar el curso");

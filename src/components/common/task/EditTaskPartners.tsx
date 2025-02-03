@@ -42,7 +42,6 @@ export default function EditTaskPartners({
       </div>
     );
   }
-  console.log("Task selected:", taskSelected);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

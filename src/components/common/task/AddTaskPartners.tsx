@@ -62,7 +62,6 @@ export default function AddTaskPartners() {
         (course) => course.course_name === value
       );
       if (selectedCourse) {
-        console.log(selectedCourse);
         setSelectedCourseUnits(selectedCourse.unit_count);
       }
     }
