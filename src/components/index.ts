@@ -3,7 +3,7 @@
 import AdminNavbar from "./adminDashboard/AdminNavbar";
 import HomeAdmin from "./adminDashboard/pages/HomeAdmin";
 import UsersAdmin from "./adminDashboard/pages/UsersAdmin";
-//Exportando componentes de CoursesDashboard
+/*Exportando componentes de CoursesDashboard
 import CoursesNavbar from "./CommonUser/CoursesNavbar";
 import HomeCourses from "./CommonUser/pages/HomeCourses";
 import MessagesCourses from "./CommonUser/pages/MessagesCourses";
@@ -12,12 +12,12 @@ import TasksCourses from "./CommonUser/pages/TasksCourses";
 import ActiveCourses from "./CommonUser/pages/ActiveCourses";
 import GradesReportCourses from "./CommonUser/pages/GradesReportCourses";
 import CalendarCourses from "./CommonUser/pages/CalendarCourses";
-import DetailCourses from "./common/courses/DetailCourses";
+import DetailCourses from "./common/courses/DetailCourses";*/
 // Otros componentes comunes
 import Support from "./common/Support";
 import Profile from "./common/Profile";
 import LogOption from "./common/nav/LogOption";
-//Componentes para los partners de cursos
+/*Componentes para los partners de cursos
 import PartnersNavbar from "./partnersDashboard/PartnersNavbar";
 import HomePartners from "./partnersDashboard/pages/HomePartners";
 import CalendarPartners from "./partnersDashboard/pages/CalendarPartners";
@@ -30,7 +30,7 @@ import AddNewUnitsPartners from "./common/courses/AddNewUnitsPartners";
 import EditCoursePartners from "./common/courses/EditCoursePartners";
 import EditModulePartners from "./common/courses/EditModulePartners";
 import AddNewModulePartners from "./common/courses/AddNewModulePartners";
-import AddTaskPartners from "./common/task/AddTaskPartners";
+import AddTaskPartners from "./common/task/AddTaskPartners";*/
 
 // Exportando componentes de responsableDashboard
 import ParentsNavbar from "./parentsDashboard/ParentsNavbar";
@@ -80,7 +80,7 @@ export const Components = {
   MaterialsStudents,
   AttendanceStudents,
   ClassesStudents,
-  //Courses
+  /*Courses
   CoursesNavbar,
   HomeCourses,
   MessagesCourses,
@@ -89,7 +89,7 @@ export const Components = {
   ActiveCourses,
   GradesReportCourses,
   CalendarCourses,
-  DetailCourses,
+  DetailCourses,*/
   //Teacher
   TeacherNavbar,
   HomeTeacher,
@@ -100,7 +100,7 @@ export const Components = {
   MaterialsTeacher,
   ClassesTeacher,
   AttendanceTeacher,
-  //Partners
+  /*Partners
   EditTaskPartners,
   EditModulePartners,
   AddNewUnitsPartners,
@@ -113,7 +113,7 @@ export const Components = {
   MyCoursesPartners,
   AddNewModulePartners,
   AddTaskPartners,
-  TasksPartners,
+  TasksPartners,*/
   //parents
 
   AttendanceParents,
