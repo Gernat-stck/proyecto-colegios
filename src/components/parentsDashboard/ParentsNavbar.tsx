@@ -4,7 +4,6 @@ import {
   Calendar1,
   BookOpenCheck,
   NotebookPenIcon,
-  NotepadText,
   UserRoundPen,
   CircleDollarSign,
 } from "lucide-react";
@@ -16,7 +15,6 @@ const navItems = [
   { name: "Calendario", icon: <Calendar1 />, route: "Calendar" },
   { name: "Registro de Notas", icon: <BookOpenCheck />, route: "GradesReport" },
   { name: "Tareas", icon: <NotebookPenIcon />, route: "Tasks" },
-  { name: "Material Didactico", icon: <NotepadText />, route: "Materials" },
   {
     name: "Registro de Asistencias",
     icon: <UserRoundPen />,
