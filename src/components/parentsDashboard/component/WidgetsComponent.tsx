@@ -4,7 +4,7 @@ import { Megaphone, Calendar, ChevronRight } from "lucide-react";
 export default function WidgetsComponent() {
   return (
     <div className="space-y-6 m-2 sm:m-4">
-      <Card className="bg-gradient-to-br from-violet-800 to-violet-600 text-white rounded-2xl overflow-hidden">
+      <Card className="bg-gradient-to-br from-violet-600 to-violet-400 text-white rounded-2xl overflow-hidden">
         <CardHeader className="pb-2">
           <CardTitle className="flex items-center text-2xl font-bold">
             <Megaphone className="w-6 h-6 mr-2" />
@@ -35,7 +35,7 @@ export default function WidgetsComponent() {
           </div>
         </CardContent>
       </Card>
-      <Card className="bg-gradient-to-br from-violet-800 to-violet-600 text-white rounded-2xl overflow-hidden">
+      <Card className="bg-gradient-to-br from-violet-600 to-violet-400 text-white rounded-2xl overflow-hidden">
         <CardHeader className="pb-2">
           <CardTitle className="flex items-center text-2xl font-bold">
             <Calendar className="w-6 h-6 mr-2" />

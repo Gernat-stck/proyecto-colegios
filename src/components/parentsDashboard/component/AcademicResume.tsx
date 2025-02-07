@@ -5,7 +5,7 @@ import { AlertCircle, Check, BookOpen, FileCheck } from "lucide-react";
 
 export default function AcademicResume() {
   return (
-    <Card className="bg-gradient-to-br from-violet-900 to-violet-600 text-white h-full rounded-2xl m-2 sm:m-4 overflow-hidden">
+    <Card className="bg-gradient-to-br from-violet-600 to-violet-400 text-white h-full rounded-2xl m-2 sm:m-4 overflow-hidden">
       <CardContent className="p-6 space-y-6">
         <section className="space-y-4">
           <h3 className="text-2xl font-bold mb-4">Resumen Académico</h3>

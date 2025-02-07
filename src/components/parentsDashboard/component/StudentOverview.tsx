@@ -42,7 +42,7 @@ export default function StudentOverview() {
   const [selectedStudent, setSelectedStudent] = useState<Student>(students[0])
 
   return (
-    <Card className="h-full bg-gradient-to-br from-violet-900 to-violet-600 text-white rounded-2xl m-2 sm:m-4 overflow-hidden relative">
+    <Card className="h-full bg-gradient-to-br from-violet-600 to-violet-400 text-white rounded-2xl m-2 sm:m-4 overflow-hidden relative">
       <CardHeader className="text-center">
         <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold">Información del Estudiante</h1>
       </CardHeader>
