@@ -18,7 +18,7 @@ const navItems = [
   { name: "Tareas", icon: <NotebookPenIcon />, route: "Tasks" },
   { name: "Clases", icon: <BookAIcon />, route: "Classes" },
   { name: "Material Didactico", icon: <NotepadText />, route: "Materials" },
-  { name: "Asistencia", icon: <UserRoundPen />, route: "Attendance" },
+  { name: "Control Academico", icon: <UserRoundPen />, route: "Attendance" },
 ];
 export default function TeacherNavbar({
   onSelect,
@@ -29,5 +29,7 @@ export default function TeacherNavbar({
     onSelect(component);
   };
 
-  return <NavbarLayout navItems={navItems} onSelect={handleSelect} />;
+  return (
+      <NavbarLayout navItems={navItems} onSelect={handleSelect} />
+  );
 }
