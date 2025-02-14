@@ -5,27 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, UserCircle } from "lucide-react";
 import { makeRequest } from "@/hooks/api";
 import SplitText from "@/components/ui/SplitText";
-//TODO: CREAR COMPONENTE REGISTRO
-/*const handleGoogleLogin = async (
-  e: React.MouseEvent<HTMLButtonElement>,
-  setLoading: (loading: boolean) => void
-) => {
-  e.preventDefault();
-  setLoading(true);
-
-  try {
-    // Redirigir al usuario a la URL de autenticación de Google
-    const response = await makeRequest({
-      url: "auth/redirect",
-      method: "GET",
-    });
-    window.location.href = response.url;
-  } catch (error) {
-    console.error("Error during Google login:", error);
-    toast.error("Error en la redirección");
-  }
-};
-*/
 const handleLoginWithoutGoogle = async (
   e: React.FormEvent<HTMLFormElement>,
   email: string,
