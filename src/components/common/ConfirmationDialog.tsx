@@ -9,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Trash } from "lucide-react";
+import { Trash, AlertTriangle, CheckCircle, XCircle } from "lucide-react";
 
 interface ConfirmationDialogProps {
   triggerText: string;
@@ -19,7 +19,23 @@ interface ConfirmationDialogProps {
   confirmParams?: any[];
   confirmText?: string;
   cancelText?: string;
+  variant?: "warning" | "danger" | "safe" | "delete";
+  iconName?: "trash" | "warning" | "safe" | "danger";
 }
+
+const variantStyles = {
+  warning: "bg-yellow-500 hover:bg-yellow-600 text-black",
+  danger: "bg-red-500 hover:bg-red-600 text-white",
+  safe: "bg-green-500 hover:bg-green-600 text-white",
+  delete: "bg-gray-500 hover:bg-gray-600 text-white",
+};
+
+const icons = {
+  trash: Trash,
+  warning: AlertTriangle,
+  safe: CheckCircle,
+  danger: XCircle,
+};
 
 export function ConfirmationDialog({
   triggerText,
@@ -29,8 +45,11 @@ export function ConfirmationDialog({
   confirmParams = [],
   confirmText = "Confirmar",
   cancelText = "Cancelar",
+  variant = "delete",
+  iconName = "trash",
 }: ConfirmationDialogProps) {
   const [open, setOpen] = useState(false);
+  const IconComponent = icons[iconName];
 
   const handleConfirm = () => {
     onConfirm(...confirmParams);
@@ -40,8 +59,12 @@ export function ConfirmationDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size={"sm"} className="hover:bg-red-500 hover:text-white">
-          {triggerText} <Trash className="w-4 h-4 mr-1" />
+        <Button
+          variant="outline"
+          size={"sm"}
+          className={`${variantStyles[variant]} hover:text-white`}
+        >
+          {triggerText} <IconComponent className="w-4 h-4 mr-1" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
