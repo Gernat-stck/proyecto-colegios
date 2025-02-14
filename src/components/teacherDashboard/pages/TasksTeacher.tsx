@@ -212,6 +212,8 @@ export default function TasksTeacher({
                         confirmParams={[task.task_id]}
                         confirmText="Sí, eliminar tarea"
                         cancelText="No, cancelar"
+                        variant="danger"
+                        iconName="trash"
                       />
                     </div>
                   </div>
