@@ -6,6 +6,7 @@ import { Material } from "@/types/MaterialType.d";
 const ResourcesComponent: React.FC = () => {
   const [materials] = useState<Material[]>([]);
   const [subject, setSubject] = useState<string>("all");
+  console.log(subject);
   return (
     <>
       <div className="flex justify-between items-center mb-4 lg:mb-2">
