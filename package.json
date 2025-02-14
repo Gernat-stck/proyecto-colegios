@@ -54,6 +54,7 @@
   "devDependencies": {
     "@eslint/js": "^9.15.0",
     "@types/aos": "^3.0.7",
+    "@types/matter-js": "^0.19.8",
     "@types/node": "^22.10.1",
     "@types/react": "^18.3.12",
     "@types/react-beautiful-dnd": "^13.1.8",
