@@ -57,7 +57,7 @@ import StudentsNavbar from "./studentDashboard/StudentsNavbar";
 import HomeStudents from "./studentDashboard/pages/HomeStudents";
 import MessagesStudents from "./studentDashboard/pages/MessagesStudents";
 import CalendarStudents from "./studentDashboard/pages/CalendarStudents";
-import GradesStudents from "./studentDashboard/pages/GradesReportStudents";
+import GradesReportStudents from "./studentDashboard/pages/GradesReportStudents";
 import TasksStudents from "./studentDashboard/pages/TasksStudents";
 import MaterialsStudents from "./studentDashboard/pages/MaterialsStudents";
 import AttendanceStudents from "./studentDashboard/pages/AttendanceStudents";
@@ -75,7 +75,7 @@ export const Components = {
   HomeStudents,
   MessagesStudents,
   CalendarStudents,
-  GradesStudents,
+  GradesReportStudents,
   TasksStudents,
   MaterialsStudents,
   AttendanceStudents,
