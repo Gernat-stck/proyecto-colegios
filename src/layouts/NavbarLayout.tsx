@@ -24,7 +24,7 @@ export default function NavbarLayout({ navItems, onSelect }: NavbarTemplateProps
 
   return (
     <nav className="w-full">
-      <ul className="flex lg:hidden justify-between items-center text-slate-900 px-6 pb-4 pt-6">
+      <ul className="flex lg:hidden justify-between items-center text-slate-900 px-6 py-6">
         <li className="text-3xl font-bold text-white">LOGOTIPO</li>
         <li>
           <Button className="undefined">
@@ -66,7 +66,7 @@ export default function NavbarLayout({ navItems, onSelect }: NavbarTemplateProps
             </Button>
           </li>
         ))}
-        <div className="mt-32 w-full flex flex-col items-end">
+        <div className="mt-28 w-full flex flex-col items-end">
           <li
             className={`w-full px-6 mt-9 lg:mt-auto mb-3 lg:mb-2 ${
               selected === "Support" ? "bg-gradient-to-l from-violet-300 to-violet-500" : ""
