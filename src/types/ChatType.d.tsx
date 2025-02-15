@@ -2,13 +2,15 @@ export interface Contact {
   id: number;
   name: string;
   avatar: string;
-  lastMessage: string;
-  lastMessageTime: string;
+  lastMessage: string | null;
+  lastMessageTime: string | null;
+  isGroup: boolean; // Agregar esta propiedad
 }
 
 export interface Message {
-  id: number;
+  id: string;
+  msg: string;
   sender: string;
-  content: string;
-  timestamp: string;
+  timestamp: number;
+  isGroup: boolean;
 }
