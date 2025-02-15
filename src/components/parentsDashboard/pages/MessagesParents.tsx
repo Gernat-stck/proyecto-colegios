@@ -5,7 +5,7 @@ import ChatApp from "@/components/common/chat/ChatApp";
 export default function MessagesParents() {
   const userId = localStorage.getItem("userId") || "";
   const [groups, setGroups] = useState<string[]>([]);
-//TODO: REVISAR POR QUE PUTAS NO FUNCIONA EL CHAT Y SE DEFORMA
+//TODO: REVISAR POR QUE PUTAS NO FUNCIONA EL CHAT Y POR QUE SE DEFORMA EL DISEÑO DE LA PAGINA
   useEffect(() => {
     const fetchGroups = async () => {
       try {
