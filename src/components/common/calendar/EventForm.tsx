@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from "react";
+"use client";
+
+import type React from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -10,9 +13,17 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { MyEvent } from "@/types/CalendarType.d";
-import { Course } from "@/types/CourseType.d";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import type { MyEvent } from "@/types/CalendarType.d";
+import type { Course } from "@/types/CourseType.d";
 import { makeRequest } from "@/hooks/api";
+import { ConfirmationDialog } from "@/components/common/ConfirmationDialog";
 
 interface EventFormProps {
   event: MyEvent;
@@ -37,16 +48,26 @@ const EventForm: React.FC<EventFormProps> = ({
   const [endDate, setEndDate] = useState<Date>(event.event_end_date);
   const [courseId, setCourseId] = useState<string>(event.course_id);
   const [courses, setCourses] = useState<Course[]>([]);
+  const [selectedCourseName, setSelectedCourseName] = useState<string>("");
 
   useEffect(() => {
-    const userId = localStorage.getItem("user_id");
+    const userId = localStorage.getItem("userId");
+    console.log(userId);
     const role = localStorage.getItem("role");
     const url = role === "admin" ? "courses" : `courses/${userId}/instructor`;
 
     makeRequest({ url, method: "GET" })
-      .then((data: Course[]) => setCourses(data))
+      .then((data: Course[]) => {
+        setCourses(data);
+        const selectedCourse = data.find(
+          (course) => course.course_id === event.course_id
+        );
+        if (selectedCourse) {
+          setSelectedCourseName(selectedCourse.course_name);
+        }
+      })
       .catch((error: any) => console.error("Error fetching courses", error));
-  }, []);
+  }, [event.course_id]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,6 +82,10 @@ const EventForm: React.FC<EventFormProps> = ({
   };
 
   const formatDateTimeLocal = (date: Date) => date.toISOString().slice(0, 16);
+
+  const inputClasses = `bg-violet-700 text-white placeholder-violet-300 border-violet-500 focus:border-violet-400 focus:ring-violet-400 ${
+    !canEdit ? "opacity-90 pointer-events-none" : ""
+  }`;
 
   return (
     <Dialog open={true} onOpenChange={onClose}>
@@ -81,7 +106,7 @@ const EventForm: React.FC<EventFormProps> = ({
               onChange={(e) => setEventName(e.target.value)}
               required
               disabled={!canEdit}
-              className={!canEdit ? "input-disabled-as-text" : ""}
+              className={inputClasses}
             />
           </div>
           <div className="space-y-2">
@@ -97,7 +122,7 @@ const EventForm: React.FC<EventFormProps> = ({
               onChange={(e) => setEventDescription(e.target.value)}
               rows={3}
               disabled={!canEdit}
-              className={!canEdit ? "input-disabled-as-text" : ""}
+              className={inputClasses}
             />
           </div>
           <div className="space-y-2">
@@ -111,7 +136,7 @@ const EventForm: React.FC<EventFormProps> = ({
               onChange={(e) => setStartDate(new Date(e.target.value))}
               required
               disabled={!canEdit}
-              className={!canEdit ? "input-disabled-as-text" : ""}
+              className={inputClasses}
             />
           </div>
           <div className="space-y-2">
@@ -125,55 +150,69 @@ const EventForm: React.FC<EventFormProps> = ({
               onChange={(e) => setEndDate(new Date(e.target.value))}
               required
               disabled={!canEdit}
-              className={!canEdit ? "input-disabled-as-text" : ""}
+              className={inputClasses}
             />
           </div>
           <div className="space-y-2">
             <Label htmlFor="course-id" className="text-white font-semibold">
               Curso
             </Label>
-            <select
-              id="course-id"
-              value={courseId}
-              onChange={(e) => setCourseId(e.target.value)}
-              required
+            <Select
               disabled={!canEdit}
-              className={`bg-violet-700 text-white placeholder-violet-300 border-violet-500 focus:border-violet-400 focus:ring-violet-400 ${
-                !canEdit ? "opacity-90 pointer-events-none" : ""
-              }`}
+              value={courseId}
+              onValueChange={(value) => {
+                setCourseId(value);
+                const selectedCourse = courses.find(
+                  (course) => course.course_id === value
+                );
+                if (selectedCourse) {
+                  setSelectedCourseName(selectedCourse.course_name);
+                }
+              }}
             >
-              <option value="" disabled>
-                Selecciona un curso
-              </option>
-              {courses.map((course) => (
-                <option key={course.course_id} value={course.course_id}>
-                  {course.course_name}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger className={inputClasses}>
+                <SelectValue placeholder="Selecciona un curso">
+                  {event.event_id ? selectedCourseName || "Selecciona un curso" : "Selecciona un curso"}
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                {courses.map((course) => (
+                  <SelectItem key={course.course_id} value={course.course_id}>
+                    {course.course_name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
           <DialogFooter className="sm:justify-start">
             {canEdit && (
               <>
-                <Button
-                  type="submit"
-                  className="mr-2 bg-green-600 hover:bg-green-700 text-white"
-                >
-                  Guardar
-                </Button>
+                <ConfirmationDialog
+                  triggerText="Guardar"
+                  title="Confirmar Actualización"
+                  description="¿Estás seguro de que deseas guardar los cambios en este evento?"
+                  onConfirm={handleSubmit}
+                  variant="safe"
+                  iconName="safe"
+                  confirmText="Guardar"
+                  cancelText="Cancelar"
+                />
                 {event.event_id && (
-                  <Button
-                    type="button"
-                    variant="destructive"
-                    onClick={() => onDelete(event)}
-                    className="mr-2 bg-red-600 hover:bg-red-700"
-                  >
-                    Eliminar
-                  </Button>
+                  <ConfirmationDialog
+                    triggerText="Eliminar"
+                    title="Confirmar Eliminación"
+                    description="¿Estás seguro de que deseas eliminar este evento? Esta acción no se puede deshacer."
+                    onConfirm={() => onDelete(event)}
+                    variant="danger"
+                    iconName="trash"
+                    confirmText="Eliminar"
+                    cancelText="Cancelar"
+                  />
                 )}
               </>
             )}
             <Button
+            size={"sm"}
               type="button"
               variant="outline"
               onClick={onClose}
