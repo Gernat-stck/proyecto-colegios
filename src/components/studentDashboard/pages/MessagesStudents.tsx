@@ -5,7 +5,7 @@ import ChatApp from "@/components/common/chat/ChatApp";
 export default function MessagesStudents() {
   const userId = localStorage.getItem("userId") || "";
   const [groups, setGroups] = useState<string[]>([]);
-
+//TODO: REVISAR POR QUE PUTAS NO FUNCIONA EL CHAT Y SE DEFORMA
   useEffect(() => {
     const fetchGroups = async () => {
       try {

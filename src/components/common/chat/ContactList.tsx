@@ -16,10 +16,10 @@ const ContactList: React.FC<ContactListProps> = ({
 }) => {
   return (
     <div className="h-full flex flex-col">
-      <div className="p-4 border-b">
+      <div className="p-4 border-b bg-white">
         <h2 className="text-lg font-semibold">Contacts</h2>
       </div>
-      <ScrollArea className="flex-grow">
+      <ScrollArea className="flex-grow overflow-y-auto">
         {contacts.map((contact) => (
           <div
             key={contact.id}

@@ -1,5 +1,3 @@
-"use client";
-
 import type React from "react";
 import { useState, useEffect } from "react";
 import ContactList from "./ContactList";
@@ -9,16 +7,25 @@ import useWebSocket from "@/hooks/useWebSocket";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
-const ChatApp: React.FC<{ userId: string; groups: string[] }> = ({ userId, groups }) => {
-  const { messages, sendMessage, groupUsers } = useWebSocket({ userId, groups });
+const ChatApp: React.FC<{ userId: string; groups: string[] }> = ({
+  userId,
+  groups,
+}) => {
+  const { messages, sendMessage, groupUsers } = useWebSocket({
+    userId,
+    groups,
+  });
   const [showAllContacts, setShowAllContacts] = useState(false);
-  const [selectedContactId, setSelectedContactId] = useState<number | null>(null);
+  const [selectedContactId, setSelectedContactId] = useState<number | null>(
+    null
+  );
 
   const defaultContacts: Contact[] = [
     {
       id: 1,
       name: "Alex Sánchez",
-      avatar: "https://img.freepik.com/psd-gratis/render-3d-personaje-avatar_23-2150611750.jpg",
+      avatar:
+        "https://img.freepik.com/psd-gratis/render-3d-personaje-avatar_23-2150611750.jpg",
       lastMessage: "Hola, ¿cómo estás?",
       lastMessageTime: "10:30 AM",
       isGroup: false,
@@ -26,7 +33,8 @@ const ChatApp: React.FC<{ userId: string; groups: string[] }> = ({ userId, group
     {
       id: 2,
       name: "Mariel Salazar",
-      avatar: "https://img.freepik.com/psd-gratis/representacion-3d-avatar_23-2150833538.jpg",
+      avatar:
+        "https://img.freepik.com/psd-gratis/representacion-3d-avatar_23-2150833538.jpg",
       lastMessage: null,
       lastMessageTime: null,
       isGroup: false,
@@ -56,12 +64,14 @@ const ChatApp: React.FC<{ userId: string; groups: string[] }> = ({ userId, group
   useEffect(() => {
     // Actualizar los contactos con los últimos mensajes
     const updatedContacts = contacts.map((contact) => {
-      const contactMessages = messages[contact.id.toString()] || [];
+      const contactMessages = messages[contact.name] || [];
       const lastMessage = contactMessages[contactMessages.length - 1];
       return {
         ...contact,
-        lastMessage: lastMessage ? lastMessage.msg : null,
-        lastMessageTime: lastMessage ? new Date(lastMessage.timestamp).toLocaleTimeString() : null,
+        lastMessage: lastMessage ? lastMessage.content : null,
+        lastMessageTime: lastMessage
+          ? new Date(lastMessage.timestamp).toLocaleTimeString()
+          : null,
       };
     });
 
@@ -69,11 +79,14 @@ const ChatApp: React.FC<{ userId: string; groups: string[] }> = ({ userId, group
     updatedContacts.sort((a, b) => {
       if (!a.lastMessageTime) return 1;
       if (!b.lastMessageTime) return -1;
-      return new Date(b.lastMessageTime).getTime() - new Date(a.lastMessageTime).getTime();
+      return (
+        new Date(b.lastMessageTime).getTime() -
+        new Date(a.lastMessageTime).getTime()
+      );
     });
 
     setContacts(updatedContacts);
-  }, [messages, contacts]); // Added contacts to the dependency array
+  }, [messages, contacts]);
 
   const handleSelectContact = (contactId: number) => {
     setSelectedContactId(contactId);
@@ -86,21 +99,28 @@ const ChatApp: React.FC<{ userId: string; groups: string[] }> = ({ userId, group
       if (selectedContact) {
         sendMessage(
           message,
-          selectedContact.isGroup ? selectedContact.name : selectedContactId.toString(),
-          selectedContact.isGroup,
+          selectedContact.isGroup
+            ? selectedContact.name
+            : selectedContactId.toString(),
+          selectedContact.isGroup
         );
       }
     }
   };
 
-  const contactsToShow = showAllContacts ? contacts : contacts.filter((contact) => contact.lastMessage !== null);
+  const contactsToShow = showAllContacts
+    ? contacts
+    : contacts.filter((contact) => contact.lastMessage !== null);
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-transparent p-4">
       <Card className="flex w-full max-w-4xl h-[600px] shadow-xl overflow-hidden">
         <div className="w-1/3 text-white h-full border-r-2 border-gray-300 bg-gradient-to-b from-violet-900 to-violet-500">
           <div className="p-4 border-b">
-            <Button onClick={() => setShowAllContacts(!showAllContacts)} className="w-full">
+            <Button
+              onClick={() => setShowAllContacts(!showAllContacts)}
+              className="w-full"
+            >
               {showAllContacts ? "Mostrar chats recientes" : "Nuevo mensaje"}
             </Button>
           </div>
@@ -131,4 +151,3 @@ const ChatApp: React.FC<{ userId: string; groups: string[] }> = ({ userId, group
 };
 
 export default ChatApp;
-

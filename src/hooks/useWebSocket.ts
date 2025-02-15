@@ -73,12 +73,12 @@ const useWebSocket = ({
       console.log("Disconnected from WebSocket server");
     };
 
-    const handlePrivateMessage = (msg: string, id: string, sender: string) => {
+    const handlePrivateMessage = (msg: string, id: string, sender: string, timestamp: string) => {
       const newMessage: Message = {
         id,
-        msg,
+        content: msg,
         sender,
-        timestamp: Date.now(),
+        timestamp,
         isGroup: false,
       };
 
@@ -88,12 +88,12 @@ const useWebSocket = ({
       }));
     };
 
-    const handleGroupMessage = (msg: string, id: string, sender: string) => {
+    const handleGroupMessage = (msg: string, id: string, sender: string, timestamp: string) => {
       const newMessage: Message = {
         id,
-        msg,
+        content: msg,
         sender,
-        timestamp: Date.now(),
+        timestamp,
         isGroup: true,
       };
 

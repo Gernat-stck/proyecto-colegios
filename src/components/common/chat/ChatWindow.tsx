@@ -1,5 +1,3 @@
-"use client";
-
 import type React from "react";
 import { useState, useRef, useEffect } from "react";
 import type { Message, Contact } from "@/types/ChatType.d";
@@ -31,7 +29,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  useEffect(scrollToBottom, []); // Updated useEffect dependency
+  useEffect(scrollToBottom, [messages]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,7 +62,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
           </div>
         )}
       </div>
-      <ScrollArea className="flex-grow p-4">
+      <ScrollArea className="flex-grow p-4 overflow-y-auto">
         <div className="space-y-4">
           {messages.map((message) => (
             <div
@@ -92,7 +90,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                 {selectedContact?.isGroup && message.sender !== userId && (
                   <p className="text-xs font-semibold mb-1">{message.sender}</p>
                 )}
-                <p className="text-sm">{message.msg}</p>
+                <p className="text-sm">{message.content}</p>
                 <p className="text-xs mt-1 opacity-70">
                   {new Date(message.timestamp).toLocaleTimeString("en-US", {
                     hour: "2-digit",
