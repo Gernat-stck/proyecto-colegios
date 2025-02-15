@@ -16,17 +16,17 @@ import { makeRequest } from "@/hooks/api";
 import { toast } from "sonner";
 import { Trash, Plus } from "lucide-react";
 
-type EditCoursePartnersProps = {
+type EditCourseTeacherProps = {
   selectedCourseId: string;
   setSelectedCourseId: (course: string) => void;
   onSelect: (component: string) => void;
 };
 
-const EditCoursePartners = ({
+const EditCourseTeacher = ({
   selectedCourseId,
   setSelectedCourseId,
   onSelect,
-}: EditCoursePartnersProps) => {
+}: EditCourseTeacherProps) => {
   const [editedUnits, setEditedUnits] = useState<Units[]>([]);
   const [newUnit, setNewUnit] = useState<Units>({
     unit_id: "",
@@ -388,4 +388,4 @@ const EditCoursePartners = ({
   );
 };
 
-export default EditCoursePartners;
+export default EditCourseTeacher;

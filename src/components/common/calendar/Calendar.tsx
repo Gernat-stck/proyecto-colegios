@@ -12,6 +12,8 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import EventForm from "./EventForm";
 import { Button } from "@/components/ui/button";
 import { MyEvent } from "@/types/CalendarType.d";
+import { makeRequest } from "@/hooks/api"; // Importa el hook
+
 const localizer = momentLocalizer(moment);
 moment.locale("es");
 interface CalendarEvent extends BigCalendarEvent {
@@ -20,18 +22,17 @@ interface CalendarEvent extends BigCalendarEvent {
   event_description?: string;
   course_id: string;
 }
-//TODO: Validar las funciones crud dependiendo de los permisos del usuario
-//TODO: Agregar un filtro para mostrar solo los eventos del usuario
-//TODO: Agregar un filtro para mostrar solo los eventos de un curso
 //TODO: Conecatar con la API de cursos para obtener los cursos del usuario
 function MyCalendar() {
   const [events, setEvents] = useState<MyEvent[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<MyEvent | null>(null);
   const [isFormOpen, setIsFormOpen] = useState<boolean>(false);
+  const canEdit =
+    localStorage.getItem("role") === "admin" ||
+    localStorage.getItem("role") === "teacher";
 
   useEffect(() => {
-    fetch("/api/events")
-      .then((response) => response.json())
+    makeRequest({ url: "events", method: "GET" })
       .then((data: MyEvent[]) => {
         const eventsWithDates = data.map((event) => ({
           ...event,
@@ -39,8 +40,9 @@ function MyCalendar() {
           event_end_date: new Date(event.event_end_date),
         }));
         setEvents(eventsWithDates);
-      });
-  }, []);
+      })
+      .catch((error: any) => console.error("Error fetching events", error));
+  }, [makeRequest]);
 
   const handleSelectSlot = (slotInfo: SlotInfo) => {
     setSelectedEvent({
@@ -63,22 +65,17 @@ function MyCalendar() {
 
   const handleSave = (event: MyEvent) => {
     const method = event.event_id ? "PUT" : "POST";
-    const url = event.event_id
-      ? `/api/events/${event.event_id}`
-      : "/api/events";
+    const url = event.event_id ? `events/${event.event_id}` : "events";
 
-    fetch(url, {
+    makeRequest({
+      url,
       method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+      data: {
         ...event,
         event_start_date: event.event_start_date.toISOString(),
         event_end_date: event.event_end_date.toISOString(),
-      }),
+      },
     })
-      .then((response) => response.json())
       .then((savedEvent: MyEvent) => {
         const savedEventWithDates = {
           ...savedEvent,
@@ -99,21 +96,22 @@ function MyCalendar() {
         });
         setIsFormOpen(false);
         setSelectedEvent(null);
-      });
+      })
+      .catch((error: any) => console.error("Error saving event", error));
   };
 
   const handleDelete = (event: MyEvent) => {
     if (!event.event_id) return;
 
-    fetch(`/api/events/${event.event_id}`, {
-      method: "DELETE",
-    }).then(() => {
-      setEvents((prevEvents) =>
-        prevEvents.filter((ev) => ev.event_id !== event.event_id)
-      );
-      setIsFormOpen(false);
-      setSelectedEvent(null);
-    });
+    makeRequest({ url: `events/${event.event_id}`, method: "DELETE" })
+      .then(() => {
+        setEvents((prevEvents) =>
+          prevEvents.filter((ev) => ev.event_id !== event.event_id)
+        );
+        setIsFormOpen(false);
+        setSelectedEvent(null);
+      })
+      .catch((error: any) => console.error("Error deleting event", error));
   };
 
   const eventStyleGetter = (event: CalendarEvent) => {
@@ -140,19 +138,21 @@ function MyCalendar() {
   return (
     <div className="p-4 space-y-2">
       <h1 className="text-2xl font-bold">Calendario de Eventos</h1>
-      <Button
-        className="bg-violet-600 text-white hover:bg-violet-800"
-        onClick={() =>
-          handleSelectSlot({
-            start: new Date(),
-            end: new Date(),
-            slots: [],
-            action: "select",
-          })
-        }
-      >
-        Crear Nuevo Evento
-      </Button>
+      {canEdit && (
+        <Button
+          className="bg-violet-600 text-white hover:bg-violet-800"
+          onClick={() =>
+            handleSelectSlot({
+              start: new Date(),
+              end: new Date(),
+              slots: [],
+              action: "select",
+            })
+          }
+        >
+          Crear Nuevo Evento
+        </Button>
+      )}
       <div className="h-[600px] bg-transparent rounded-lg border-2 border-gray-300 p-4">
         <Calendar
           localizer={localizer}
@@ -175,6 +175,7 @@ function MyCalendar() {
             setIsFormOpen(false);
             setSelectedEvent(null);
           }}
+          canEdit={canEdit}
         />
       )}
     </div>

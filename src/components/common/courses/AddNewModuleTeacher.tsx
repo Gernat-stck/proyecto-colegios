@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/card";
 import { Course } from "@/types/CourseType.d";
 import { toast } from "sonner";
-import AddNewUnitsPartners from "./AddNewUnitsPartners";
+import AddNewUnitsTeacher from "./AddNewUnitsTeacher";
 
 const materialApoyoSchema = z.object({
   title: z.string(),
@@ -51,25 +51,20 @@ const formSchema = z.object({
   enrolled_students: z.coerce
     .number()
     .min(0, "El número de estudiantes no puede ser negativo"),
-  price: z.coerce
-    .number()
-    .min(0, "El precio no puede ser negativo")
-    .refine((value) => /^\d+(\.\d{1,2})?$/.test(value.toString()), {
-      message: "El precio debe tener como máximo dos decimales",
-    }),
+
   units: z.array(unitSchema).min(1, "Debe haber al menos una unidad"),
 });
 
 type ModuleFormValues = z.infer<typeof formSchema>;
 
-interface AddNewModulePartnersProps {
+interface AddNewModuleTeacherProps {
   onCreateSuccess: (newCourse: Course) => void;
   onCancel: () => void;
 }
 
-export default function AddNewModulePartners({
+export default function AddNewModuleTeacher({
   onCancel,
-}: AddNewModulePartnersProps) {
+}: AddNewModuleTeacherProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [courseData, setCourseData] = useState<Course | null>(null);
 
@@ -83,7 +78,6 @@ export default function AddNewModulePartners({
       total_hours: 0,
       category: "",
       enrolled_students: 0,
-      price: 0,
       units: [
         {
           unit_number: 1,
@@ -115,7 +109,7 @@ export default function AddNewModulePartners({
   }
 
   if (courseData) {
-    return <AddNewUnitsPartners course={courseData} />;
+    return <AddNewUnitsTeacher course={courseData} />;
   }
 
   return (
@@ -197,19 +191,6 @@ export default function AddNewModulePartners({
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
-                <FormField
-                  control={form.control}
-                  name="price"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Precio</FormLabel>
-                      <FormControl>
-                        <Input {...field} type="number" step="0.01" />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
                 <FormField
                   control={form.control}
                   name="enrolled_students"

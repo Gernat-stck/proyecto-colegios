@@ -22,11 +22,11 @@ import { toast } from "sonner";
 import { makeRequest } from "@/hooks/api";
 import { useNavigate } from "react-router-dom";
 
-interface AddNewUnitsPartnersProps {
+interface AddNewUnitsTeacherProps {
   course: Course;
 }
 
-const AddNewUnitsPartners = ({ course }: AddNewUnitsPartnersProps) => {
+const AddNewUnitsTeacher = ({ course }: AddNewUnitsTeacherProps) => {
   const [newUnit, setNewUnit] = useState<Units>({
     unit_id: "",
     unit_number: 0,
@@ -141,7 +141,7 @@ const AddNewUnitsPartners = ({ course }: AddNewUnitsPartnersProps) => {
         duration: 3000,
         position: "top-center",
       });
-      navigate("/dashboard/partners/MyCourses");
+      navigate("/dashboard/Teacher/MyCourses");
     } catch (error) {
       console.error("Error al crear el curso:", error);
     }
@@ -313,4 +313,4 @@ const AddNewUnitsPartners = ({ course }: AddNewUnitsPartnersProps) => {
   );
 };
 
-export default AddNewUnitsPartners;
+export default AddNewUnitsTeacher;

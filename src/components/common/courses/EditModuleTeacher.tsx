@@ -41,7 +41,6 @@ const formSchema = z.object({
     .number()
     .min(0, { message: "Las horas totales son requeridas" }),
   category: z.string().min(1, { message: "La categoría es requerida" }),
-  price: z.coerce.number().min(0, { message: "El precio es requerido" }),
 });
 
 export default function EditModuleForm({
@@ -60,7 +59,6 @@ export default function EditModuleForm({
       description: "",
       total_hours: 0,
       category: "",
-      price: 0,
     },
   });
   const {
@@ -237,29 +235,6 @@ export default function EditModuleForm({
                     />
                   </FormControl>
                   <FormMessage>{errors.category?.message}</FormMessage>
-                </FormItem>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <FormItem>
-                  <FormLabel>Precio</FormLabel>
-                  <FormControl>
-                    <Controller
-                      name="price"
-                      control={control}
-                      render={({ field }) => (
-                        <Input
-                          {...field}
-                          type="number"
-                          step="0.01"
-                          disabled={!isEditing}
-                          onChange={(e) =>
-                            field.onChange(parseFloat(e.target.value))
-                          }
-                        />
-                      )}
-                    />
-                  </FormControl>
-                  <FormMessage>{errors.price?.message}</FormMessage>
                 </FormItem>
               </div>
             </CardContent>

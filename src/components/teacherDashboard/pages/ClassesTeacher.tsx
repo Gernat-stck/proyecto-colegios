@@ -139,9 +139,6 @@ export default function ClassesTeacher({
               </div>
             </CardContent>
             <CardFooter className="flex justify-between items-center">
-              <span className="text-lg font-bold">
-                ${parseFloat(course.price).toFixed(2)}
-              </span>
               <Button
                 className="bg-violet-600 hover:bg-violet-700"
                 onClick={() => EditCoursePartners(course)}

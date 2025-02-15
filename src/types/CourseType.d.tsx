@@ -5,7 +5,6 @@ export type Course = {
   instructor: string;
   total_hours: number;
   category: string;
-  price: number;
   enrolled_students: number;
   units: Units[];
 };
@@ -52,7 +51,6 @@ export interface CourseOverview {
   course_name: string;
   description: string;
   enrolled_students: number;
-  price: string;
   units: number;
   category: string;
   instructor: string;
