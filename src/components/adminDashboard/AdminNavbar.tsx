@@ -6,7 +6,7 @@ import NavbarLayout from "@/layouts/NavbarLayout";
 
 const navItems = [
   { name: "Home", icon: <HomeIcon />, route: "Home" },
-  { name: "Administrar Usuarios", icon: <UserRoundPen />, route: "AdminUsers" },
+  { name: "Administrar Usuarios", icon: <UserRoundPen />, route: "Users" },
 ];
 
 export default function AdminNavbar({
