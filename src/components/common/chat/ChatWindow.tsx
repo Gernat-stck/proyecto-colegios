@@ -1,5 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Message, Contact } from "@/types/ChatType.d";
+import type React from "react";
+import { useState, useRef, useEffect } from "react";
+import type { Message, Contact } from "@/types/ChatType.d";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -10,12 +11,16 @@ interface ChatWindowProps {
   messages: Message[];
   onSendMessage: (message: string) => void;
   selectedContact: Contact | undefined;
+  groupUsers: { [key: string]: string[] };
+  userId: string;
 }
 
 const ChatWindow: React.FC<ChatWindowProps> = ({
   messages,
   onSendMessage,
   selectedContact,
+  groupUsers,
+  userId,
 }) => {
   const [newMessage, setNewMessage] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -46,41 +51,45 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
               />
               <AvatarFallback>{selectedContact.name.charAt(0)}</AvatarFallback>
             </Avatar>
-            <h2 className="ml-4 text-lg font-semibold">
-              {selectedContact.name}
-            </h2>
+            <div className="ml-4">
+              <h2 className="text-lg font-semibold">{selectedContact.name}</h2>
+              {selectedContact.isGroup && groupUsers[selectedContact.name] && (
+                <p className="text-sm text-gray-500">
+                  {groupUsers[selectedContact.name].length} participants
+                </p>
+              )}
+            </div>
           </div>
         )}
       </div>
-      <ScrollArea className="flex-grow p-4">
+      <ScrollArea className="flex-grow p-4 overflow-y-auto">
         <div className="space-y-4">
           {messages.map((message) => (
             <div
               key={message.id}
               className={`flex ${
-                message.sender === "Me" || message.sender === "Yo"
-                  ? "justify-end"
-                  : "justify-start"
+                message.sender === userId ? "justify-end" : "justify-start"
               }`}
             >
-              {message.sender !== "Me" && message.sender !== "Yo" && (
+              {message.sender !== userId && (
                 <Avatar className="h-8 w-8 mr-2 flex-shrink-0">
                   <AvatarImage
-                    src={selectedContact?.avatar}
-                    alt={selectedContact?.name}
+                    src={`/placeholder.svg?height=32&width=32&text=${message.sender[0]}`}
+                    alt={message.sender}
                   />
-                  <AvatarFallback>
-                    {selectedContact?.name.charAt(0)}
-                  </AvatarFallback>
+                  <AvatarFallback>{message.sender[0]}</AvatarFallback>
                 </Avatar>
               )}
               <div
                 className={`max-w-[70%] rounded-lg p-3 ${
-                  message.sender === "Me" || message.sender === "Yo"
+                  message.sender === userId
                     ? "bg-blue-500 text-white"
                     : "bg-gray-200 text-gray-800"
                 }`}
               >
+                {selectedContact?.isGroup && message.sender !== userId && (
+                  <p className="text-xs font-semibold mb-1">{message.sender}</p>
+                )}
                 <p className="text-sm">{message.content}</p>
                 <p className="text-xs mt-1 opacity-70">
                   {new Date(message.timestamp).toLocaleTimeString("en-US", {
@@ -90,16 +99,15 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
                   })}
                 </p>
               </div>
-              {message.sender === "Me" ||
-                (message.sender === "Yo" && (
-                  <Avatar className="h-8 w-8 ml-2 flex-shrink-0">
-                    <AvatarImage
-                      src="/placeholder.svg?height=32&width=32"
-                      alt="Me"
-                    />
-                    <AvatarFallback>Me</AvatarFallback>
-                  </Avatar>
-                ))}
+              {message.sender === userId && (
+                <Avatar className="h-8 w-8 ml-2 flex-shrink-0">
+                  <AvatarImage
+                    src="/placeholder.svg?height=32&width=32"
+                    alt="Me"
+                  />
+                  <AvatarFallback>Me</AvatarFallback>
+                </Avatar>
+              )}
             </div>
           ))}
         </div>

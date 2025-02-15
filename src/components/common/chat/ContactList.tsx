@@ -1,5 +1,5 @@
-import React from "react";
-import { Contact } from "@/types/ChatType.d";
+import type React from "react";
+import type { Contact } from "@/types/ChatType.d";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
@@ -16,10 +16,10 @@ const ContactList: React.FC<ContactListProps> = ({
 }) => {
   return (
     <div className="h-full flex flex-col">
-      <div className="p-4 border-b">
+      <div className="p-4 border-b bg-white">
         <h2 className="text-lg font-semibold">Contacts</h2>
       </div>
-      <ScrollArea className="flex-grow">
+      <ScrollArea className="flex-grow overflow-y-auto">
         {contacts.map((contact) => (
           <div
             key={contact.id}
@@ -35,12 +35,14 @@ const ContactList: React.FC<ContactListProps> = ({
             <div className="ml-4 flex-grow">
               <h3 className="text-sm font-medium">{contact.name}</h3>
               <p className="text-xs text-gray-500 truncate">
-                {contact.lastMessage}
+                {contact.lastMessage || "No messages yet"}
               </p>
             </div>
-            <span className="text-xs text-gray-400">
-              {contact.lastMessageTime}
-            </span>
+            {contact.lastMessageTime && (
+              <span className="text-xs text-gray-400">
+                {contact.lastMessageTime}
+              </span>
+            )}
           </div>
         ))}
       </ScrollArea>
