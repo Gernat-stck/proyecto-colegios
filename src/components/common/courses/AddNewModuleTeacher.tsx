@@ -67,7 +67,7 @@ export default function AddNewModuleTeacher({
 }: AddNewModuleTeacherProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [courseData, setCourseData] = useState<Course | null>(null);
-
+//TODO: Validar los datos que se envian al backen, no se estan validando los datos y faltan por enviar
   const form = useForm<ModuleFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
