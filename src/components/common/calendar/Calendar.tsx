@@ -13,6 +13,7 @@ import EventForm from "./EventForm";
 import { Button } from "@/components/ui/button";
 import { MyEvent } from "@/types/CalendarType.d";
 import { makeRequest } from "@/hooks/api"; // Importa el hook
+import { toast } from "sonner";
 
 const localizer = momentLocalizer(moment);
 moment.locale("es");
@@ -22,7 +23,6 @@ interface CalendarEvent extends BigCalendarEvent {
   event_description?: string;
   course_id: string;
 }
-//TODO: Conecatar con la API de cursos para obtener los cursos del usuario
 function MyCalendar() {
   const [events, setEvents] = useState<MyEvent[]>([]);
   const [selectedEvent, setSelectedEvent] = useState<MyEvent | null>(null);
@@ -41,7 +41,7 @@ function MyCalendar() {
         }));
         setEvents(eventsWithDates);
       })
-      .catch((error: any) => console.error("Error fetching events", error));
+      .catch((error: any) => toast.error("Error al cargar los eventos", error));
   }, [makeRequest]);
 
   const handleSelectSlot = (slotInfo: SlotInfo) => {
@@ -96,8 +96,9 @@ function MyCalendar() {
         });
         setIsFormOpen(false);
         setSelectedEvent(null);
+        toast.success("Evento guardado correctamente");
       })
-      .catch((error: any) => console.error("Error saving event", error));
+      .catch((error: any) => toast.error("Error al registrar el evento", error));
   };
 
   const handleDelete = (event: MyEvent) => {
@@ -110,8 +111,9 @@ function MyCalendar() {
         );
         setIsFormOpen(false);
         setSelectedEvent(null);
+        toast.success("Evento eliminado correctamente");
       })
-      .catch((error: any) => console.error("Error deleting event", error));
+      .catch((error: any) => toast.error("Error al eliminar el evento", error));
   };
 
   const eventStyleGetter = (event: CalendarEvent) => {
