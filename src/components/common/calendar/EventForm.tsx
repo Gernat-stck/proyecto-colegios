@@ -81,9 +81,8 @@ const EventForm: React.FC<EventFormProps> = ({
 
   const formatDateTimeLocal = (date: Date) => date.toISOString().slice(0, 16);
 
-  const inputClasses = `bg-violet-700 text-white placeholder-violet-300 border-violet-500 focus:border-violet-400 focus:ring-violet-400 ${
-    !canEdit ? "opacity-90 pointer-events-none" : ""
-  }`;
+  const inputClasses = `bg-violet-700 text-white placeholder-violet-300 border-violet-500 focus:border-violet-400 focus:ring-violet-400 ${!canEdit ? "opacity-90 pointer-events-none" : ""
+    }`;
 
   return (
     <Dialog open={true} onOpenChange={onClose}>
@@ -175,7 +174,7 @@ const EventForm: React.FC<EventFormProps> = ({
               </SelectTrigger>
               <SelectContent>
                 {courses.map((course) => (
-                  <SelectItem key={course.course_id} value={course.course_id}>
+                  <SelectItem key={course.course_id} value={course.course_id || ""}>
                     {course.course_name}
                   </SelectItem>
                 ))}
@@ -210,7 +209,7 @@ const EventForm: React.FC<EventFormProps> = ({
               </>
             )}
             <Button
-            size={"sm"}
+              size={"sm"}
               type="button"
               variant="outline"
               onClick={onClose}
