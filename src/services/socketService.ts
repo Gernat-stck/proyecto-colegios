@@ -1,12 +1,13 @@
 import { io, Socket } from "socket.io-client";
 
 let socket: Socket | null = null;
-
+const microServiceUrl = import.meta.env.VITE_MCS_URL;
 export const connectSocket = (token: string): Socket => {
-  socket = io('http://localhost:3000', {
+  socket = io(microServiceUrl, {
     auth: {
       token: token,
     },
+    transports: ["websocket"], // Opcionalmente, especifica los transportes
   });
 
   return socket;
