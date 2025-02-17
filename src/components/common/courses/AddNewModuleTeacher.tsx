@@ -23,6 +23,7 @@ import {
 import { Course } from "@/types/CourseType.d";
 import { toast } from "sonner";
 import AddNewUnitsTeacher from "./AddNewUnitsTeacher";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 
 const materialApoyoSchema = z.object({
   title: z.string(),
@@ -31,7 +32,7 @@ const materialApoyoSchema = z.object({
 
 const unitSchema = z.object({
   unit_number: z.number(),
-  unit_id: z.string(),
+  unit_id: z.string().nullable(),
   title: z.string(),
   introduction: z.string(),
   unit_objectives: z.array(z.string()),
@@ -40,7 +41,7 @@ const unitSchema = z.object({
 });
 
 const formSchema = z.object({
-  course_id: z.string(),
+  course_id: z.string().nullable(),
   course_name: z.string().min(1, "El título es requerido"),
   description: z.string().min(1, "La descripción es requerida"),
   instructor: z.string().min(1, "El nombre del instructor es requerido"),
@@ -51,7 +52,7 @@ const formSchema = z.object({
   enrolled_students: z.coerce
     .number()
     .min(0, "El número de estudiantes no puede ser negativo"),
-
+  section: z.string().min(1, "La sección es requerida"),
   units: z.array(unitSchema).min(1, "Debe haber al menos una unidad"),
 });
 
@@ -67,7 +68,6 @@ export default function AddNewModuleTeacher({
 }: AddNewModuleTeacherProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [courseData, setCourseData] = useState<Course | null>(null);
-
   const form = useForm<ModuleFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -78,6 +78,7 @@ export default function AddNewModuleTeacher({
       total_hours: 0,
       category: "",
       enrolled_students: 0,
+      section: "",
       units: [
         {
           unit_number: 1,
@@ -99,7 +100,7 @@ export default function AddNewModuleTeacher({
         ...values,
       };
       toast.success("Módulo creado exitosamente");
-      setCourseData(newCourse); // Guardar los datos del curso en el estado
+      setCourseData(newCourse);
     } catch (error) {
       console.error("Error al formatear los datos:", error);
       toast.error("Error al formatear los datos");
@@ -111,6 +112,13 @@ export default function AddNewModuleTeacher({
   if (courseData) {
     return <AddNewUnitsTeacher course={courseData} />;
   }
+  const SECTIONS = Array.from({ length: 9 }, (_, gradeIndex) => {
+    const grade = gradeIndex + 1;
+    return ['A', 'B'].map(section => ({
+      value: `${grade}° Grado ${section}`,
+      label: `${grade}° Grado ${section}`
+    }));
+  }).flat();
 
   return (
     <div className="flex justify-center items-center min-h-[90vh] p-7">
@@ -206,6 +214,33 @@ export default function AddNewModuleTeacher({
                     </FormItem>
                   )}
                 />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="section"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Sección</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecciona una sección" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {SECTIONS.map((section) => (
+                            <SelectItem key={section.value} value={section.value}>
+                              {section.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
               </div>
             </CardContent>
             <CardFooter className="flex justify-between">

@@ -1,16 +1,17 @@
 export type Course = {
-  course_id: string;
+  course_id: string | null;
   course_name: string;
   description: string;
   instructor: string;
   total_hours: number;
   category: string;
+  section: string;
   enrolled_students: number;
   units: Units[];
 };
 
 export type Units = {
-  unit_id: string;
+  unit_id: string | null;
   unit_number: number;
   title: string;
   introduction: string;

@@ -1,46 +1,67 @@
-import React from "react";
-import { HeaderType } from "@/types/HeaderType.d";
+import { useState } from "react"
+import { Card } from "@/components/ui/card"
 
-const Header: React.FC<HeaderType> = ({
-  average,
-  tasksDone,
-  totalTasks,
-  examsDone,
-  totalExams,
-  onSelect,
-}) => {
+interface Student {
+  id: string
+  name: string
+  grade: string
+  section: string
+  coordinator: string
+  imageUrl: string
+}
+
+const students: Student[] = [
+  {
+    id: "123456",
+    name: "Carlos Pérez",
+    grade: "Octavo",
+    section: "A",
+    coordinator: "Miguel Angel",
+    imageUrl: "/src/assets/profiletemplate.svg",
+  }
+]
+
+export default function Header() {
+  const [selectedStudent] = useState<Student>(students[0])
+
   return (
-    <div className="w-full h-full p-4">
-      <div className="w-full h-full rounded-3xl flex items-center overflow-hidden">
-        {/* Círculo de Progreso - Lado izquierdo */}
-        <button onClick={() => onSelect("Average")} className="h-full aspect-square p-4">
-          <div className="bg-white rounded-full full-border-8 border-white h-full w-full flex flex-col items-center justify-center">
-            <span className="text-4xl font-bold text-violet-600">{average}</span>
-            <span className="text-sm text-violet-600">%</span>
-          </div>
-        </button>
+    <Card className="bg-gradient-to-r from-violet-600 to-violet-400 text-white rounded-2xl m-2 sm:m-4 overflow-hidden relative p-4 sm:p-6">
+      <div className="flex flex-col sm:flex-row items-center sm:items-start sm:space-y-0 sm:space-x-6">
+        {/* Contenedor de la imagen */}
 
-        {/* Información de Tareas - Lado derecho */}
-        <button onClick={() => onSelect("Tasks")} className="flex-1 h-full">
-          <div className="bg-violet-400 h-full mx-4 rounded-2xl px-6 py-3">
-            <div className="space-y-2">
-              <div>
-                <h4 className="text-white text-xl font-medium">Tareas Completadas</h4>
-                <p className="text-white/90 text-md">
-                  {tasksDone}/{totalTasks}
-                </p>
-              </div>
-              <div>
-                <h4 className="text-white text-xl font-medium">Asistencia</h4>
-                <p className="text-white/90 text-md">
-                  {examsDone}/{totalExams}
-                </p>
-              </div>
-            </div>
+        <div className="w-16 h-16 sm:w-32 sm:h-32 lg:w-40 lg:h-40 overflow-hidden rounded-full flex-shrink-0">
+          <img
+            src={selectedStudent.imageUrl || "/placeholder.svg"}
+            alt={`Foto de ${selectedStudent.name}`}
+            className="w-full h-full object-cover bg-white"
+          />
+        </div>
+        {/* Contenedor de la información */}
+
+        <div className="flex-grow flex flex-col h-full">
+          <h1 className="text-xl sm:text-lg lg:text-3xl font-bold">Bienvenido{' '}
+            <span className=" text-black rounded-lg p-1">{selectedStudent.name} </span></h1>
+          <p className="text-lg sm:text-lg lg:text-lg font-semibold mb-4"></p>
+          {/* Card con la información */}
+          <div className="rounded-3xl bg-violet-800 bg-opacity-50 shadow-lg p-3">
+            <ul className="text-white text-sm sm:text-base lg:text-lg grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <li className="flex justify-between sm:justify-start sm:space-x-4">
+                <strong>ID Estudiante:</strong> <span>{selectedStudent.id}</span>
+              </li>
+              <li className="flex justify-between sm:justify-start sm:space-x-4">
+                <strong>Grado:</strong> <span>{selectedStudent.grade}</span>
+              </li>
+              <li className="flex justify-between sm:justify-start sm:space-x-4">
+                <strong>Seccion:</strong> <span>{selectedStudent.section}</span>
+              </li>
+              <li className="flex justify-between sm:justify-start sm:space-x-4">
+                <strong>Coordinador:</strong> <span>{selectedStudent.coordinator}</span>
+              </li>
+            </ul>
           </div>
-        </button>
+        </div>
       </div>
-    </div>
+    </Card>
   )
-};
-export default Header;
+}
+

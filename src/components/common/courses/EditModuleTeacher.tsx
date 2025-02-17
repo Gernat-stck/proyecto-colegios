@@ -3,6 +3,7 @@ import { useForm, Controller, FormProvider } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
   FormControl,
+  FormField,
   FormItem,
   FormLabel,
   FormMessage,
@@ -22,6 +23,7 @@ import { makeRequest } from "@/hooks/api";
 import PacmanLoader from "react-spinners/PacmanLoader";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 
 interface EditModuleFormProps {
   selectedCourseId: string;
@@ -29,7 +31,6 @@ interface EditModuleFormProps {
   onSelect: (component: string) => void;
 }
 
-//TODO: Hay que agregar una validacion que no me deje pasar a las unidades si no se han guardado los cambios
 
 const formSchema = z.object({
   course_name: z.string().min(1, { message: "El título es requerido" }),
@@ -41,9 +42,10 @@ const formSchema = z.object({
     .number()
     .min(0, { message: "Las horas totales son requeridas" }),
   category: z.string().min(1, { message: "La categoría es requerida" }),
+  section: z.string().min(1, { message: "La sección es requerida" }),
 });
 
-export default function EditModuleForm({
+export default function EditModuleTeacher({
   selectedCourseId,
   setSelectedCourseId,
   onSelect,
@@ -135,7 +137,7 @@ export default function EditModuleForm({
     }
   }
   const handleEditUnits = () => {
-    setSelectedCourseId(selectedCourse!.course_id);
+    setSelectedCourseId(selectedCourse?.course_id || "");
     onSelect("EditCourse");
   };
 
@@ -146,6 +148,13 @@ export default function EditModuleForm({
       </div>
     );
   }
+  const SECTIONS = Array.from({ length: 9 }, (_, gradeIndex) => {
+    const grade = gradeIndex + 1;
+    return ['A', 'B'].map(section => ({
+      value: `${grade}° Grado ${section}`,
+      label: `${grade}° Grado ${section}`
+    }));
+  }).flat();
   return (
     <div className="flex justify-center items-center min-h-[90vh] p-7">
       <Card className="w-full max-w-2xl mx-auto">
@@ -236,6 +245,34 @@ export default function EditModuleForm({
                   </FormControl>
                   <FormMessage>{errors.category?.message}</FormMessage>
                 </FormItem>
+
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="section"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Sección</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value} disabled={!isEditing}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecciona una sección" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {SECTIONS.map((section) => (
+                            <SelectItem key={section.value} value={section.value}>
+                              {section.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
               </div>
             </CardContent>
             <CardFooter className="flex justify-between">
