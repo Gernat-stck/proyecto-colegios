@@ -1,27 +1,36 @@
-import { useState, useEffect } from "react";
-import { makeRequest } from "@/hooks/api";
-import ChatApp from "@/components/common/chat/ChatApp";
+import React from 'react';
+import { SocketProvider } from '@/context/SocketContext';
+import ChatPage from '@/components/common/chat/page/ChatPage';
+import { toast } from 'sonner';
+import useGenerateToken from '@/hooks/useGenerateToken';
+import PacmanLoader from 'react-spinners/PacmanLoader';
 
-export default function MessagesParents() {
-  const userId = localStorage.getItem("userId") || "";
-  const [groups, setGroups] = useState<string[]>([]);
-//TODO: REVISAR POR QUE PUTAS NO FUNCIONA EL CHAT Y POR QUE SE DEFORMA EL DISEÑO DE LA PAGINA
-  useEffect(() => {
-    const fetchGroups = async () => {
-      try {
-        const data = await makeRequest({
-          url: `user/${userId}/courses`,
-          method: "GET",
-        });
-        const courseNames = data.map((course: { course_name: string }) => course.course_name);
-        setGroups(courseNames);
-      } catch (error) {
-        console.error("Error fetching groups:", error);
-      }
-    };
+const MessagesParents: React.FC = () => {
+  const { token, loading, error } = useGenerateToken();
 
-    fetchGroups();
-  }, [userId]);
+  if (loading) {
+    return (<div className="flex justify-center items-center min-h-[90vh] p-7">
+      <PacmanLoader color="#0f172a" loading={loading} size={30} />
+    </div>);
+  }
 
-  return <ChatApp userId={userId} groups={groups} />;
-}
+  if (error) {
+    toast.error(error);
+    return <div>Error al cargar el chat</div>;
+  }
+
+  if (!token) {
+    toast.error("Necesitas iniciar sesión para acceder al chat");
+    return <div>Necesitas iniciar sesión</div>;
+  }
+
+  return (
+    <SocketProvider token={token}>
+      <main className='overflow-hidden mt-10'>
+        <ChatPage />
+      </main>
+    </SocketProvider>
+  );
+};
+
+export default MessagesParents;
