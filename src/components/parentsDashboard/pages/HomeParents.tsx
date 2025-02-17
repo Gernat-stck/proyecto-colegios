@@ -1,6 +1,6 @@
 import AcademicResume from "../component/AcademicResume";
 import StudentOverview from "../component/StudentOverview";
-import WidgetsComponent from "../component/WidgetsComponent";
+import WidgetsComponent from "../../widgets/WidgetsComponent";
 export default function HomeParents() {
   return (
     <div className="grid grid-cols-3 gap-1 ">
