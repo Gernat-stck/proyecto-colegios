@@ -30,7 +30,7 @@ import AttendanceTeacher from "./teacherDashboard/pages/AttendanceTeacher";
 import AddNewModuleTeacher from "./common/courses/AddNewModuleTeacher";
 import AddNewUnitsTeacher from "./common/courses/AddNewUnitsTeacher";
 import EditCourseTeacher from "./common/courses/EditCourseTeacher";
-import EditModuleForm from "./common/courses/EditModuleTeacher";
+import EditModuleTeacher from "./common/courses/EditModuleTeacher";
 
 // Exportando componentes de studentDashboard
 import StudentsNavbar from "./studentDashboard/StudentsNavbar";
@@ -73,7 +73,7 @@ export const Components = {
   AddNewModuleTeacher,
   AddNewUnitsTeacher,
   EditCourseTeacher,
-  EditModuleForm,
+  EditModuleTeacher,
 
   //parents
   AttendanceParents,
