@@ -7,7 +7,6 @@ export const connectSocket = (token: string): Socket => {
     auth: {
       token: token,
     },
-    transports: ["websocket"], // Opcionalmente, especifica los transportes
   });
 
   return socket;

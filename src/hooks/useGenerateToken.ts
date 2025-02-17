@@ -20,14 +20,11 @@ const useGenerateToken = (): UseGenerateTokenReturn => {
         setLoading(false);
         return;
       }
-      console.log("Sanctum Token", sanctumToken);
-      console.log("Microservice URL", microServiceUrl);
       try {
         const response = await axios.post(`${microServiceUrl}generate-token`, {
           token: sanctumToken,
         });
         setToken(response.data.token);
-        console.log(response);
         localStorage.setItem("microserviceToken", response.data.token);
         setError(null);
       } catch (error: any) {
