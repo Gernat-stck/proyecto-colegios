@@ -12,7 +12,7 @@ const useGenerateToken = (): UseGenerateTokenReturn => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const sanctumToken = localStorage.getItem("tokenSanctum");
-
+  const microServiceUrl = import.meta.env.VITE_MCS_URL;
   useEffect(() => {
     const getMicroserviceToken = async () => {
       if (!sanctumToken) {
@@ -22,10 +22,9 @@ const useGenerateToken = (): UseGenerateTokenReturn => {
       }
 
       try {
-        const response = await axios.post(
-          "http://localhost:3000/generate-token",
-          { token: sanctumToken }
-        );
+        const response = await axios.post(`${microServiceUrl}/api/token`, {
+          token: sanctumToken,
+        });
         setToken(response.data.token);
         localStorage.setItem("microserviceToken", response.data.token);
         setError(null);
