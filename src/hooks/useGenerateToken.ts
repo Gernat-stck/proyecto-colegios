@@ -22,7 +22,7 @@ const useGenerateToken = (): UseGenerateTokenReturn => {
       }
 
       try {
-        const response = await axios.post(`${microServiceUrl}/api/token`, {
+        const response = await axios.post(`${microServiceUrl}/generate-token`, {
           token: sanctumToken,
         });
         setToken(response.data.token);
